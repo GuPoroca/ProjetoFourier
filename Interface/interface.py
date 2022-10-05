@@ -14,33 +14,87 @@ image_zebra = '../data/zebra.png'
 image_mario = '../data/mario.png'
 image_pengu = '../data/pengu.png'
 
-#Elementos da janela primária
+#Elementos da janela introdutoria
 layout = [
-    [sg.Text("Bem vindo ao protótipo do projeto fourier, por favor selecione uma imagem", justification="center")],
-    [sg.Button(image_filename= image_mulie, image_size=(200, 200), key = '_1_'),
-    sg.Button(image_filename= image_zebra, image_size=(200, 200), key = '_2_')],
-    [sg.Button(image_filename= image_mario, image_size=(200, 200), key = '_3_'),
-    sg.Button(image_filename= image_pengu, image_size=(200, 200), key = '_4_')]
+    [sg.Text("Bem vindo ao protótipo do projeto fourier", size=(100,1),justification="center")],
+    [sg.Button("Próxima Página", key = "next")]
 ]
+window = sg.Window('Fast Fourier Transform',layout,size=(450,600), modal=True)
 
-#Criar janela primária com (Nome, Layout, tamanho, centralizador)
-window = sg.Window("Projeto Fourier", layout, size=(600, 450), element_justification='c')
+#Interagindo com a janela introdutoria 
 
 while True:
-    event, values = window.read()
-    if event == '_1_':
-        escolha(image_mulie)
+    event,values = window.read()
+    if event == "Exit" or event == sg.WIN_CLOSED:
         break
-    elif event == '_2_':
-        escolha(image_zebra)
-        break
-    elif event == '_3_':
-        escolha(image_mario)
-        break
-    elif event == '_4_':
-        escolha(image_pengu)
-        break
-    if event == sg.WIN_CLOSED:
-        break
-
+    elif event == "next":
+        window.close()
+        open_first_window()
+        
+    
 window.close()
+
+#Primeira Window 
+
+def open_first_window(): 
+    #Definindo o layout
+
+    layout = [
+        [sg.Text("", size=(80,1),justification="center")],
+        [sg.Button(image_filename= image_mulie, image_size=(200, 200), key = 'muliepressed',pad=(4,4)),
+        sg.Button(image_filename= image_zebra, image_size=(200, 200), key = 'zebrapressed',pad=(4,4))],
+        [sg.Button(image_filename= image_mario, image_size=(200, 200), key = 'mariopressed',pad=(4,4)),
+        sg.Button(image_filename= image_pengu, image_size=(200, 200), key = 'pengupressed',pad=(4,4))],
+        [sg.Text("Ou importe uma imagem:")]
+    ]
+
+    #Criando a Window
+
+    window = sg.Window('Fast Fourier Transform',layout,size=(450,600))
+    
+    while True:
+        event,values = window.read()    
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+        elif event == "muliepressed":
+            window.close()
+            open_second_window(image_mulie)
+            break
+        elif event == "zebrapressed":
+            window.close()
+            open_second_window(image_zebra)
+            break
+        elif event == "mariopressed":
+            window.close()
+            open_second_window(image_mario)
+            break
+        elif event == "pengupressed":
+            window.close()
+            open_second_window(image_pengu)
+            break
+    window.close()
+    
+#Segunda Window
+
+def open_second_window(image): 
+    layout = [
+        [sg.Text("Fast Fourier Transform Editor", size = (80,1),justification="center")],
+        [sg.Button(image_filename=image,image_size=(300,300))],
+        [sg.Button("Voltar", key = "anterior")]
+    ]
+    
+    window=sg.Window("FFT",layout,size=(450,600))
+
+    #Interagindo o a segunda janela
+    while True:
+        event,values = window.read()
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+        elif event == "anterior":
+            window.close()
+            open_first_window()
+
+
+    window.close()
+ 
+
