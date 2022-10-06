@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
 
+from interface_grafica.coisasUteis import LARGURA_JANELA, ALTURA_JANELA
+
 
 #TODO - Função para unir todos os grupos
 
@@ -25,7 +27,7 @@ def open_first_window():
 
     #Criando a Window
 
-    window = sg.Window('Fast Fourier Transform',layout,size=(450,600))
+    window = sg.Window('Fast Fourier Transform',layout,size=(LARGURA_JANELA,ALTURA_JANELA))
 
     while True:
         event,values = window.read()
@@ -57,7 +59,7 @@ def open_second_window(image):
         [sg.Button("Voltar", key="anterior")]
     ]
 
-    window = sg.Window("FFT", layout, size=(450, 600))
+    window = sg.Window("FFT", layout, size=(LARGURA_JANELA, ALTURA_JANELA))
 
     # Interagindo o a segunda janela
     while True:
@@ -82,7 +84,7 @@ layout = [
     [sg.Text("Bem vindo ao protótipo do projeto fourier", size=(100,1),justification="center")],
     [sg.Button("Próxima Página", key = "next")]
 ]
-window = sg.Window('Fast Fourier Transform',layout,size=(450,600), modal=True)
+window = sg.Window('Fast Fourier Transform',layout,size=(LARGURA_JANELA,ALTURA_JANELA), modal=True)
 
 #Interagindo com a janela introdutoria
 

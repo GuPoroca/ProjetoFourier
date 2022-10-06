@@ -3,12 +3,13 @@ import PySimpleGUI as sg
 import numpy as np
 from PIL.Image import Resampling #No pycharm isso tá dando erro n sei pq
 
-from interfaces_graficas.funcoesUteis import array_to_data, save_element_as_file
+from interface_grafica.coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALTURA_JANELA
+
 
 # TODO -_-
 #   Adicionar botões de  aumentar/diminuir pincel,limpar e integrar com as outras telas :Franciele
 
-LARGURA_JANELA, ALTURA_JANELA = 450, 600
+
 
 
 

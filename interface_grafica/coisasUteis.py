@@ -1,5 +1,10 @@
 from PIL import Image, ImageGrab
 from io import BytesIO
+#Usem esse arquivo para salvar valores que vocês repetem muito, tipo variaveis, fotos, etc
+
+LARGURA_JANELA, ALTURA_JANELA = 450, 600
+
+
 #Funções suporte
 def array_to_data(array):
     im = Image.fromarray(array)
