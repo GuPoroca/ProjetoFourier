@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-from interface_grafica.coisasUteis import LARGURA_JANELA, ALTURA_JANELA
+from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
 
 
 #TODO - Função para unir todos os grupos

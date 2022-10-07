@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 import numpy as np
 from PIL.Image import Resampling #No pycharm isso tá dando erro n sei pq
 
-from interface_grafica.coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALTURA_JANELA
+from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALTURA_JANELA
 
 
 # TODO -_-
