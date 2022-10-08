@@ -15,8 +15,9 @@ from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALT
 
 class TelaEdicao:
     # Construtor, java ainda é superior
-    def __init__(self):
-        self.imagemoriginal = Image.open("../data/monke.jpg").resize((300, 300),Resampling.LANCZOS)  # Abre a imagem e da resize
+    def __init__(self, image):
+        image = Image.fromarray(image)
+        self.imagemoriginal = image.resize((300, 300),Resampling.LANCZOS)  # Abre a imagem e da resize
         self.set_atributos()
         self.setTelaPrincipal()
         self.setQuadroDeDesenho()
@@ -103,4 +104,4 @@ class TelaEdicao:
         self.telaprincipal.close()
 
 #No caso quando integrar com outras telas, terá q remover essa linha e colar a mesma coisa no lugar q a tela será chemada
-TelaEdicao().run()
+#TelaEdicao().run()

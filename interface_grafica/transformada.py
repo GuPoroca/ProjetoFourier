@@ -1,11 +1,11 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 #Função da Transformada
 def transformada(imagem):
-    f = np.fft.fft2(imagem)
+    image = cv.imread(imagem,0)
+    f = np.fft.fft2(image)
     fshift = np.fft.fftshift(f)
     magnitude_spectrum = 20*np.log(np.abs(fshift))
     return magnitude_spectrum
