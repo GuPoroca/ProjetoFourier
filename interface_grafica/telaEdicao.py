@@ -6,7 +6,7 @@ from PIL.Image import Resampling #No pycharm isso tá dando erro n sei pq
 from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALTURA_JANELA
 
 
-# TODO -_-
+# TODO
 #   Adicionar botões de  aumentar/diminuir pincel,limpar e integrar com as outras telas :Franciele
 
 
@@ -80,7 +80,7 @@ class TelaEdicao:
 
     def salvar(self):
         print("Foto editada salva")
-        save_element_as_file(self.quadro_desenho, r'cache/imagem_editada.png')
+        save_element_as_file(self.quadro_desenho, r'__pycache__/imagem_editada.png')
 
     #alterna entre branco e preto
     def mudar_cor(self):
