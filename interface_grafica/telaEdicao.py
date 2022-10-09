@@ -31,9 +31,11 @@ class TelaEdicao:
                        [sg.Button('Salvar', button_color=("#000000", "#991a1a"), key="salvarbtn"),
                         sg.Exit("Sair", button_color=("#000000", "#991a1a"), key='sairbtn')],
                        [sg.Button("Mudar cor", button_color=("#000000", "#991a1a"), key="corbtn")],
+                       [sg.Text("Cor atual: " + self.cor_pincel, key="cortxt")],
                        [sg.Button("Limpar", button_color=("#000000", "#991a1a"), key="limpabtn")],
                        [sg.Button("Aumentar pincel", button_color=("#000000", "#991a1a"), key="aumentabtn"),
                         sg.Button("Diminuir pincel", button_color=("#000000", "#991a1a"), key="diminuibtn")],
+                       [sg.Text("Tamanho do pincel: " + str(self.tamanho_pincel), key="tamtxt")],
                        #[sg.Radio("Pincel preto", "RADIO", enable_events=True, key="ativaP"),
                         #sg.Radio("Pincel branco", "RADIO", enable_events=False, key="ativaB")]
                     
@@ -58,24 +60,24 @@ class TelaEdicao:
         self.cor_pincel = "white"  # white ou black apenas
 
     def set_mouse_binds_p_telas(self):
-        print("Iniciando quadro de edicao")
+        #print("Iniciando quadro de edicao")
         self.quadro_desenho.set_cursor('pencil')
         self.telaprincipal.TKroot.bind('<Button-1>', self.save_pos)
         self.telaprincipal.TKroot.bind("<B1-Motion>", self.pintar)
         
     def save_pos(self, event):
         self.lastx, self.lasty = event.x, event.y
-        print("Posicao adquirida")
-        print(event)
-        print(event.x, event.y)
-        print(self.lastx, self.lasty)
+        #print("Posicao adquirida")
+        #print(event)
+        #print(event.x, event.y)
+        #print(self.lastx, self.lasty)
 
     def pintar(self, event):
-        print("pintando")
+        #print("pintando")
         self.quadro_desenho.Widget.create_line((self.lastx, self.lasty, event.x, event.y), fill=self.cor_pincel, width=self.tamanho_pincel)
         self.save_pos(event)
-        print(event.x, event.y)
-        print(self.lastx, self.lasty)
+        #print(event.x, event.y)
+        #print(self.lastx, self.lasty)
 
     def limpar(self) :
         pass
@@ -85,17 +87,20 @@ class TelaEdicao:
     def aumentar_pincel(self):
         self.tamanho_pincel += 1
         
+        
     def diminuir_pincel(self):
         if self.tamanho_pincel > 1:
             self.tamanho_pincel -= 1
+        
 
     def salvar(self):
-        print("Foto editada salva")
+        #print("Foto editada salva")
         save_element_as_file(self.quadro_desenho, r'__pycache__/imagem_editada.png')
 
     #alterna entre branco e preto
     def mudar_cor(self):
         self.cor_pincel = "white" if self.cor_pincel == "black" else "black"
+        
         
     """    
     def pincel_black(self):
@@ -125,14 +130,17 @@ class TelaEdicao:
                 case sg.WIN_CLOSED: break
                 case "corbtn":
                     self.mudar_cor()
+                    self.telaprincipal.Element("cortxt").update("Cor atual: " + self.cor_pincel)
                 case "salvarbtn":
                     self.salvar()
                 case "limpbtn":
                     self.limpar()
                 case "aumentabtn":
                     self.aumentar_pincel()
+                    self.telaprincipal.Element("tamtxt").update("Tamanho do pincel: " + str(self.tamanho_pincel))
                 case "diminuibtn":
                     self.diminuir_pincel()
+                    self.telaprincipal.Element("tamtxt").update("Tamanho do pincel: " + str(self.tamanho_pincel))
                     """
                 case "ativaP":
                     self.pincel_black()
