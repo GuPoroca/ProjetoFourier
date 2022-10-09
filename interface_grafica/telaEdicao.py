@@ -7,7 +7,7 @@ from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALT
 
 
 # TODO
-#   Adicionar botões de  aumentar/diminuir pincel,limpar e integrar com as outras telas :Franciele
+#   Função de limpar
 
 
 
@@ -30,7 +30,13 @@ class TelaEdicao:
                        [sg.Text("Botoes quadro")],
                        [sg.Button('Salvar', button_color=("#000000", "#991a1a"), key="salvarbtn"),
                         sg.Exit("Sair", button_color=("#000000", "#991a1a"), key='sairbtn')],
-                       [sg.Button("Mudar cor", button_color=("#000000", "#991a1a"), key="corbtn")]
+                       [sg.Button("Mudar cor", button_color=("#000000", "#991a1a"), key="corbtn")],
+                       [sg.Button("Limpar", button_color=("#000000", "#991a1a"), key="limpabtn")],
+                       [sg.Button("Aumentar pincel", button_color=("#000000", "#991a1a"), key="aumentabtn"),
+                        sg.Button("Diminuir pincel", button_color=("#000000", "#991a1a"), key="diminuibtn")],
+                       #[sg.Radio("Pincel preto", "RADIO", enable_events=True, key="ativaP"),
+                        #sg.Radio("Pincel branco", "RADIO", enable_events=False, key="ativaB")]
+                    
 
                        ]
 
@@ -56,6 +62,7 @@ class TelaEdicao:
         self.quadro_desenho.set_cursor('pencil')
         self.telaprincipal.TKroot.bind('<Button-1>', self.save_pos)
         self.telaprincipal.TKroot.bind("<B1-Motion>", self.pintar)
+        
     def save_pos(self, event):
         self.lastx, self.lasty = event.x, event.y
         print("Posicao adquirida")
@@ -72,11 +79,15 @@ class TelaEdicao:
 
     def limpar(self) :
         pass
+        #self.quadro_desenho.delete("all") ---> nao ta funcionando 
+        #self.quadro_desenho.Widget.create_line((0, 0, 1000, 1000), fill="white")
 
     def aumentar_pincel(self):
-        pass
+        self.tamanho_pincel += 1
+        
     def diminuir_pincel(self):
-        pass
+        if self.tamanho_pincel > 1:
+            self.tamanho_pincel -= 1
 
     def salvar(self):
         print("Foto editada salva")
@@ -85,6 +96,24 @@ class TelaEdicao:
     #alterna entre branco e preto
     def mudar_cor(self):
         self.cor_pincel = "white" if self.cor_pincel == "black" else "black"
+        
+    """    
+    def pincel_black(self):
+        if self.cor_pincel == "white":
+            self.cor_pincel = "black"
+            disable = False
+        else:
+            self.cor_pincel = "black"
+            disable = False
+        
+    def pincel_white(self):
+        if self.cor_pincel == "black":
+            self.cor_pincel = "white"
+            disable = True
+        else:
+            self.cor_pincel = "white"
+            disable = True
+    """
 
     def run(self) -> None:
         self.set_mouse_binds_p_telas()
@@ -98,6 +127,18 @@ class TelaEdicao:
                     self.mudar_cor()
                 case "salvarbtn":
                     self.salvar()
+                case "limpbtn":
+                    self.limpar()
+                case "aumentabtn":
+                    self.aumentar_pincel()
+                case "diminuibtn":
+                    self.diminuir_pincel()
+                    """
+                case "ativaP":
+                    self.pincel_black()
+                case "ativaB":
+                    self.pincel_white()
+                """  
 
                 #Só botar case "a key do botao" e o resultado do clique
 
