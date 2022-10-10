@@ -16,10 +16,10 @@ def transformada_para_imagem(transformada):
 #Teste das Imagens
 
 def teste_das_imagens():   
-    img1Path = 'data/pengu.png'
-    img2Path = 'data/mario.png'
-    img3Path = 'data/zebra.png'
-    img4Path = 'data/mulie.png'
+    img1Path = '../data/pengu.png'
+    img2Path = '../data/mario.png'
+    img3Path = '../data/zebra.png'
+    img4Path = '../data/mulie.png'
 
     img1 = cv.imread(img1Path,0)
     img2 = cv.imread(img2Path,0)

@@ -95,7 +95,7 @@ class TelaEdicao:
 
     def salvar(self):
         #print("Foto editada salva")
-        save_element_as_file(self.quadro_desenho, r'interface_grafica/__pycache__/imagem_editada.png')
+        save_element_as_file(self.quadro_desenho, r'../data/imagempintada.png')
 
     #alterna entre branco e preto
     def mudar_cor(self):

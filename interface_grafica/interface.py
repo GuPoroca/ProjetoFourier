@@ -83,8 +83,8 @@ def open_first_window():
             if os.path.exists(filename):
               image = Image.open(filename).convert('L')
               image = image.resize((300, 300),Resampling.LANCZOS)
-              image.save("data/user.png")
-              foto = "data/user.png"
+              image.save("../data/user.png")
+              foto = "../data/user.png"
               open_second_window(foto)
             break
     window.close()
@@ -120,10 +120,10 @@ def open_second_window(image):
 
 
 #Salvando imagens em variáveisg
-image_mulie = "data/mulie.png"
-image_zebra = "data/zebra.png"
-image_mario = "data/mario.png"
-image_pengu = "data/pengu.png"
+image_mulie = "../data/mulie.png"
+image_zebra = "../data/zebra.png"
+image_mario = "../data/mario.png"
+image_pengu = "../data/pengu.png"
 
 
 
