@@ -5,6 +5,7 @@ import io
 import os
 from telaEdicao import TelaEdicao
 from transformada import transformada
+from transformada import transformada_para_imagem
 from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
 
 
@@ -55,25 +56,25 @@ def open_first_window():
         elif event == "muliepressed":
             window.close()
             transf = transformada(image_mulie)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = TelaEdicao(transformada_para_imagem(transf))
             telaPaint.run()
             break
         elif event == "zebrapressed":
             window.close()
             transf = transformada(image_zebra)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = TelaEdicao(transformada_para_imagem(transf))
             telaPaint.run()
             break
         elif event == "mariopressed":
             window.close()
             transf = transformada(image_mario)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = TelaEdicao(transformada_para_imagem(transf))
             telaPaint.run()
             break
         elif event == "pengupressed":
             window.close()
             transf = transformada(image_pengu)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = TelaEdicao(transformada_para_imagem(transf))
             telaPaint.run()
             break
         elif event == "Load Image":
@@ -82,8 +83,8 @@ def open_first_window():
             if os.path.exists(filename):
               image = Image.open(filename).convert('L')
               image = image.resize((300, 300),Resampling.LANCZOS)
-              image.save("../data/user.png")
-              foto = "../data/user.png"
+              image.save("data/user.png")
+              foto = "data/user.png"
               open_second_window(foto)
             break
     window.close()
@@ -108,7 +109,7 @@ def open_second_window(image):
         elif event == "userimg":
             window.close()
             transf = transformada(image)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = TelaEdicao(transformada_para_imagem(transf))
             telaPaint.run()
             break
         elif event == "anterior":
@@ -119,10 +120,10 @@ def open_second_window(image):
 
 
 #Salvando imagens em variáveisg
-image_mulie = "../data/mulie.png"
-image_zebra = "../data/zebra.png"
-image_mario = "../data/mario.png"
-image_pengu = "../data/pengu.png"
+image_mulie = "data/mulie.png"
+image_zebra = "data/zebra.png"
+image_mario = "data/mario.png"
+image_pengu = "data/pengu.png"
 
 
 
