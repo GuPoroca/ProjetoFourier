@@ -92,7 +92,7 @@ def open_first_window():
 def open_second_window(image):
     layout_column2 = [
         [sg.Text("Fast Fourier Transform Editor", size=(80, 1), justification="center")],
-        [sg.Button(image_filename=image, image_size=(300, 300))],
+        [sg.Button(image_filename=image, image_size=(300, 300), key="userimg")],
         [sg.Button("Voltar", key="anterior")]
     ]
 
@@ -104,6 +104,12 @@ def open_second_window(image):
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+        elif event == "userimg":
+            window.close()
+            transf = transformada(image)
+            telaPaint = TelaEdicao(transf)
+            telaPaint.run()
             break
         elif event == "anterior":
             window.close()
