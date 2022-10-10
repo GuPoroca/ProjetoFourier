@@ -1,10 +1,18 @@
 import PySimpleGUI as sg
+from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
 
-from interface_grafica.coisasUteis import LARGURA_JANELA, ALTURA_JANELA
+#Ferramentas para conseguir salvar na memoria a imagem importada
+from PIL import Image
+import io
+import os
+
 
 
 #TODO - Função para unir todos os grupos
 
+#Para importar imagem
+file_types = [("JPEG (*.jpg)", "*.jpg"),
+              ("All files (*.*)", "*.*")]
 
 
 def escolha(imagem):
@@ -16,14 +24,18 @@ def escolha(imagem):
 def open_first_window():
     #Definindo o layout
 
-    layout = [
-        [sg.Text("", size=(80,1),justification="center")],
-        [sg.Button(image_filename= image_mulie, image_size=(200, 200), key = 'muliepressed',pad=(4,4)),
-        sg.Button(image_filename= image_zebra, image_size=(200, 200), key = 'zebrapressed',pad=(4,4))],
-        [sg.Button(image_filename= image_mario, image_size=(200, 200), key = 'mariopressed',pad=(4,4)),
-        sg.Button(image_filename= image_pengu, image_size=(200, 200), key = 'pengupressed',pad=(4,4))],
-        [sg.Text("Ou importe uma imagem:")]
+    layout_column3 = [
+        [sg.Text("Escolha uma imagem abaixo", size=(80,1),justification="center")],
+        [sg.Button(image_filename= image_mulie, image_size=(235, 220), key = 'muliepressed',pad=(4,4)),
+        sg.Button(image_filename= image_zebra, image_size=(235, 220), key = 'zebrapressed',pad=(4,4))],
+        [sg.Button(image_filename= image_mario, image_size=(235, 220), key = 'mariopressed',pad=(4,4)),
+        sg.Button(image_filename= image_pengu, image_size=(236, 220), key = 'pengupressed',pad=(4,4))],
+        [sg.Text("Ou importe uma imagem:",justification="left"),
+        sg.Input(size=(24, 1), key="-FILE-"),
+        sg.FileBrowse(file_types=file_types),
+        sg.Button("Load Image")]
     ]
+    layout = [[sg.Column(layout_column3, element_justification='center')]]
 
     #Criando a Window
 
@@ -49,15 +61,26 @@ def open_first_window():
             window.close()
             open_second_window(image_pengu)
             break
+        elif event == "Load Image":
+            window.close()
+            filename = values["-FILE-"]
+            if os.path.exists(filename):
+              image = Image.open(values["-FILE-"])
+              image.thumbnail((300, 300))
+              bio = io.BytesIO()
+              open_second_window(image.save(bio, format="PNG"))
+            break
     window.close()
 
 
 def open_second_window(image):
-    layout = [
+    layout_column2 = [
         [sg.Text("Fast Fourier Transform Editor", size=(80, 1), justification="center")],
         [sg.Button(image_filename=image, image_size=(300, 300))],
         [sg.Button("Voltar", key="anterior")]
     ]
+
+    layout = [[sg.Column(layout_column2, element_justification='center')]]
 
     window = sg.Window("FFT", layout, size=(LARGURA_JANELA, ALTURA_JANELA))
 
@@ -73,17 +96,21 @@ def open_second_window(image):
     window.close()
 
 
-#Salvando imagens em variáveis
+#Salvando imagens em variáveisg
 image_mulie = "../data/mulie.png"
 image_zebra = "../data/zebra.png"
 image_mario = "../data/mario.png"
 image_pengu = "../data/pengu.png"
 
+
+
 #Elementos da janela introdutoria
-layout = [
+layout_column = [
     [sg.Text("Bem vindo ao protótipo do projeto fourier", size=(100,1),justification="center")],
     [sg.Button("Próxima Página", key = "next")]
 ]
+layout = [[sg.Column(layout_column, element_justification='center')]]
+
 window = sg.Window('Fast Fourier Transform',layout,size=(LARGURA_JANELA,ALTURA_JANELA), modal=True)
 
 #Interagindo com a janela introdutoria

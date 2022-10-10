@@ -2,7 +2,7 @@ from PIL import Image, ImageGrab
 from io import BytesIO
 #Usem esse arquivo para salvar valores que vocês repetem muito, tipo variaveis, fotos, etc
 
-LARGURA_JANELA, ALTURA_JANELA = 450, 600
+LARGURA_JANELA, ALTURA_JANELA = 550, 550
 
 
 #Funções suporte
