@@ -1,4 +1,8 @@
 import PySimpleGUI as sg
+from PIL import Image
+from PIL.Image import Resampling
+import io
+import os
 from telaEdicao import TelaEdicao
 from transformada import transformada
 from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
@@ -76,10 +80,11 @@ def open_first_window():
             window.close()
             filename = values["-FILE-"]
             if os.path.exists(filename):
-              image = Image.open(values["-FILE-"])
-              image.thumbnail((300, 300))
-              bio = io.BytesIO()
-              open_second_window(image.save(bio, format="PNG"))
+              image = Image.open(filename).convert('L')
+              image = image.resize((300, 300),Resampling.LANCZOS)
+              image.save("../data/user.png")
+              foto = "../data/user.png"
+              open_second_window(foto)
             break
     window.close()
 
