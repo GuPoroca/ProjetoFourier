@@ -1,12 +1,15 @@
 import PySimpleGUI as sg
+from telaEdicao import TelaEdicao
+from transformada import transformada
 from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
 
-#Ferramentas para conseguir salvar na memoria a imagem importada
-from PIL import Image
-import io
-import os
 
-
+#Oi, para o projeto funcionar por enquanto temos as dependências de:
+#Python 3.10 ou superior,
+#PysimpleGUI (pip install PySimpleGUI)
+#Pillow (pip install Pillow)
+#numpy (pip install numpy)
+#cv2 (pip install opencv-python)
 
 #TODO - Função para unir todos os grupos
 
@@ -47,19 +50,27 @@ def open_first_window():
             break
         elif event == "muliepressed":
             window.close()
-            open_second_window(image_mulie)
+            transf = transformada(image_mulie)
+            telaPaint = TelaEdicao(transf)
+            telaPaint.run()
             break
         elif event == "zebrapressed":
             window.close()
-            open_second_window(image_zebra)
+            transf = transformada(image_zebra)
+            telaPaint = TelaEdicao(transf)
+            telaPaint.run()
             break
         elif event == "mariopressed":
             window.close()
-            open_second_window(image_mario)
+            transf = transformada(image_mario)
+            telaPaint = TelaEdicao(transf)
+            telaPaint.run()
             break
         elif event == "pengupressed":
             window.close()
-            open_second_window(image_pengu)
+            transf = transformada(image_pengu)
+            telaPaint = TelaEdicao(transf)
+            telaPaint.run()
             break
         elif event == "Load Image":
             window.close()
