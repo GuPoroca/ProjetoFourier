@@ -56,25 +56,29 @@ def open_first_window():
         elif event == "muliepressed":
             window.close()
             transf = transformada(image_mulie)
-            telaPaint = TelaEdicao(transformada_para_imagem(transf))
+            transformada_para_imagem(transf)
+            telaPaint = TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "zebrapressed":
             window.close()
             transf = transformada(image_zebra)
-            telaPaint = TelaEdicao(transformada_para_imagem(transf))
+            transformada_para_imagem(transf)
+            telaPaint = TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "mariopressed":
             window.close()
             transf = transformada(image_mario)
-            telaPaint = TelaEdicao(transformada_para_imagem(transf))
+            transformada_para_imagem(transf)
+            telaPaint = TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "pengupressed":
             window.close()
             transf = transformada(image_pengu)
-            telaPaint = TelaEdicao(transformada_para_imagem(transf))
+            transformada_para_imagem(transf)
+            telaPaint = TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "Load Image":

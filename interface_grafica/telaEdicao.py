@@ -1,10 +1,12 @@
+import cv2
 from PIL import Image
 import PySimpleGUI as sg
 import numpy as np
 from PIL.Image import Resampling #No pycharm isso tá dando erro n sei pq
 
-from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALTURA_JANELA
-
+from coisasUteis import array_to_data, save_graph_as_file, LARGURA_JANELA, ALTURA_JANELA, cria_filtro_do_desenho, \
+    resultado
+from matplotlib import pyplot as plt
 
 # TODO
 #   Função de limpar
@@ -15,18 +17,17 @@ from coisasUteis import array_to_data, save_element_as_file, LARGURA_JANELA, ALT
 
 class TelaEdicao:
     # Construtor, java ainda é superior
-    def __init__(self, image):
-        image = Image.fromarray(image)
-        self.imagemoriginal = image.resize((300, 300),Resampling.LANCZOS)  # Abre a imagem e da resize
+    def __init__(self, transformada):
+        self.transformada = transformada
+        #self.imagemoriginal = image.resize((300, 300),Resampling.LANCZOS)  Não precisa mais dar o resize =P
         self.set_atributos()
-        self.setTelaPrincipal()
-        self.setQuadroDeDesenho()
+        self.set_tela_principal()
+        self.set_quadro_de_desenho()
 
-    def setTelaPrincipal(self):
+    def set_tela_principal(self):
         self.layout = [[sg.Graph(canvas_size=(300, 300), graph_bottom_left=(0, 0), graph_top_right=(300, 300),
-                                 key="quadro_desenho",
-                                 change_submits=True, background_color="#ffffff", tooltip="Edite aqui", visible=True,
-                                 pad=(5, 5))],
+                                 key="quadro_desenho", pad=(0,0),
+                                 enable_events=True, background_color="#ffffff", tooltip="Edite aqui", visible=True)],
                        [sg.Text("Botoes quadro")],
                        [sg.Button('Salvar', button_color=("#000000", "#991a1a"), key="salvarbtn"),
                         sg.Exit("Sair", button_color=("#000000", "#991a1a"), key='sairbtn')],
@@ -44,12 +45,11 @@ class TelaEdicao:
 
         self.telaprincipal = sg.Window("Photoshopee", self.layout, size=(LARGURA_JANELA, ALTURA_JANELA), finalize=True,
                                        element_justification="center")
-    def setQuadroDeDesenho(self):
-        data = array_to_data(np.array(self.imagemoriginal,
-                                      dtype=np.uint8))  # Transforma a imagem em uma array de dados no formato uint8 e da array converte para os dados no formato necessário para botar no canvas
 
+    def set_quadro_de_desenho(self):
         self.quadro_desenho = self.telaprincipal["quadro_desenho"]  # self.telaprincipal.Element("quadro_desenho")
-        self.quadro_desenho.draw_image(data=data, location=(0, 300))
+        self.quadro_desenho.draw_image(filename="../data/transformadaOriginal.png", location=(0,300))
+
 
     def set_atributos(self):
         self.lastx = None
@@ -64,7 +64,8 @@ class TelaEdicao:
         self.quadro_desenho.set_cursor('pencil')
         self.telaprincipal.TKroot.bind('<Button-1>', self.save_pos)
         self.telaprincipal.TKroot.bind("<B1-Motion>", self.pintar)
-        
+
+
     def save_pos(self, event):
         self.lastx, self.lasty = event.x, event.y
         #print("Posicao adquirida")
@@ -74,16 +75,27 @@ class TelaEdicao:
 
     def pintar(self, event):
         #print("pintando")
+
         self.quadro_desenho.Widget.create_line((self.lastx, self.lasty, event.x, event.y), fill=self.cor_pincel, width=self.tamanho_pincel)
         self.save_pos(event)
         #print(event.x, event.y)
         #print(self.lastx, self.lasty)
 
     def limpar(self) :
-        pass
+        self.pintarBorda()
         #self.quadro_desenho.delete("all") ---> nao ta funcionando 
         #self.quadro_desenho.Widget.create_line((0, 0, 1000, 1000), fill="white")
 
+    def pintarBorda(self):
+
+        self.quadro_desenho.Widget.create_line((0, 0, 300, 0), fill=self.cor_pincel,
+                                                       width=self.tamanho_pincel)
+        self.quadro_desenho.Widget.create_line((0, 300, 300, 300), fill=self.cor_pincel,
+                                               width=self.tamanho_pincel)
+        self.quadro_desenho.Widget.create_line((0, 0, 0, 300), fill=self.cor_pincel,
+                                               width=self.tamanho_pincel)
+        self.quadro_desenho.Widget.create_line((300, 0, 300, 300), fill=self.cor_pincel,
+                                               width=self.tamanho_pincel)
     def aumentar_pincel(self):
         self.tamanho_pincel += 1
         
@@ -95,7 +107,7 @@ class TelaEdicao:
 
     def salvar(self):
         #print("Foto editada salva")
-        save_element_as_file(self.quadro_desenho, r'../data/imagempintada.png')
+        save_graph_as_file(self.quadro_desenho, r'../data/transformadaEditada.png')
 
     #alterna entre branco e preto
     def mudar_cor(self):
@@ -124,6 +136,7 @@ class TelaEdicao:
         while True:  # A brincadeira eh aq
             self.event, self.values = self.telaprincipal.read()
 
+
             match self.event:
                 case 'sairbtn' : break
                 case sg.WIN_CLOSED: break
@@ -132,7 +145,9 @@ class TelaEdicao:
                     self.telaprincipal.Element("cortxt").update("Cor atual: " + self.cor_pincel)
                 case "salvarbtn":
                     self.salvar()
-                case "limpbtn":
+                    b = cria_filtro_do_desenho(1)
+                    resultado(b, self.transformada)
+                case "limpabtn":
                     self.limpar()
                 case "aumentabtn":
                     self.aumentar_pincel()
