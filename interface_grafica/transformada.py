@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+from coisasUteis import DIRETORIO_TRANS_ORIGINAL
 
 
 #Função da Transformada
@@ -13,7 +14,7 @@ def transformada(imagem):
 ## função para mostrar transformada como imagem
 def transformada_para_imagem(transformada):
     spec = 20 * np.log(np.abs(transformada))
-    cv.imwrite("../data/transformadaOriginal.png",spec) #Salva o spectre pra edicao e criacao do filtro (PS: SO VAMOS USAR ISSO PRIMORDIALMENTE PARA VISUALIZACAO E CRIACAO DO FILTRO)
+    cv.imwrite(DIRETORIO_TRANS_ORIGINAL,spec) #Salva o spectre pra edicao e criacao do filtro (PS: SO VAMOS USAR ISSO PRIMORDIALMENTE PARA VISUALIZACAO E CRIACAO DO FILTRO)
     return spec
 
 def transformada_inversa(trans):

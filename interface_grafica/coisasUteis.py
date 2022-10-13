@@ -3,14 +3,13 @@ import numpy as np
 from PIL import Image, ImageGrab
 from io import BytesIO
 from tkinter import *
-from matplotlib import pyplot as plt
 
-from interface_grafica.transformada import inversa_para_imagem, transformada_inversa
 
 #Usem esse arquivo para salvar valores que vocês repetem muito, tipo variaveis, fotos, etc
 
 LARGURA_JANELA, ALTURA_JANELA = 550, 550
-
+DIRETORIO_TRANS_ORIGINAL = r'../data/trans&result/freqOriginal.png'
+DIRETORIO_TRANS_EDITADA = r'../data/trans&result/freqEditada.png'
 
 #Funções suporte
 def array_to_data(array):
@@ -58,18 +57,11 @@ def filtroPassaAlta(raio, shapeBugante):
 def distancia(point1, point2):
     return np.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
-def mostrarResultado(pinturamask, transCent):
-    transEditCent = pinturamask*transCent; #Sprectre centralizado editado com a nossa edicao
-    transEdit = np.fft.ifftshift(transEditCent)
-    imagemEditada = np.abs(np.fft.ifft2(transEdit))
-    plt.plot(166), plt.imshow(np.abs(imagemEditada), "gray"), plt.title("Processed Image")
-    plt.show()
-    return imagemEditada
 
-
+#Cria o filtro criado pelo nosso desenho comparando as duas imagens e pegando só a parte q tá desenhada
 def cria_filtro_do_desenho(multiplicador_freq):
-    imgeditada = cv2.imread(r'../data/transformadaEditada.png')
-    imgOriginal = cv2.imread(r'../data/transformadaOriginal.png')
+    imgeditada = cv2.imread(DIRETORIO_TRANS_EDITADA)
+    imgOriginal = cv2.imread(DIRETORIO_TRANS_ORIGINAL)
     base = np.ones([300,300])
     for x in range(300):
         for y in range (300):
@@ -83,11 +75,4 @@ def cria_filtro_do_desenho(multiplicador_freq):
     return base
 
 
-
-def resultado(filtro, transformada):
-    print("AG")
-    f_center_filtrado = filtro * transformada;
-
-    img = inversa_para_imagem(transformada_inversa(f_center_filtrado))
-
-    cv2.imwrite("../data/FotoEditada.png",img)
+#Tirar isso dps, só salva a imagem editada como um arquivo
