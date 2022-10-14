@@ -8,18 +8,12 @@ from transformada import inversa_para_imagem, transformada_inversa
 
 # TODO
 #   Melhorar UI, ainda preciso
-#   Tem um bug relacionado ao escolher um multiplicador, o valor é resetado ao mudar de cor (creio q seja fácil)
-
-def blank_frame():
-    return sg.Frame("", [[]], pad=(5, 3), expand_x=True, expand_y=True, background_color='#404040', border_width=0)
-
 
 class TelaEdicao:
     # Construtor, java ainda é superior
     def __init__(self, transformada):
         self.transformada = transformada
         self.multiplicadorFreq = [0.0, 1.0]  # multiplicadores para o preto([0]) e branco([1])
-        # self.imagemoriginal = image.resize((300, 300),Resampling.LANCZOS)  Não precisa mais dar o resize =P
         self.set_atributos()
         self.set_tela_principal()
         self.set_quadro_de_desenho()
@@ -92,15 +86,13 @@ class TelaEdicao:
         # Aparentemente isso funciona, me impressionei comigo mesmo
         if self.isInBorracha == True:
             figuras = self.quadro_desenho.get_figures_at_location(location=(event.x, 300 - event.y))
-            if figuras != () and figuras != (1,):  # Pula os casos onde é a imagem apenas e o resto da janela(tirando a tinta)
-                figuras = figuras[
-                          1:]  # Remove o primeiro elemento das figuras, que é a imagem de fundo(n sei pq é assim, mas é)
-                for figura in figuras:
-                    self.quadro_desenho.delete_figure(figura)
+            #N precisa desse if, já que de qualquer jeito a gente vai precisar tirar o primeiro elemento dessa tupla
+            #if figuras != (1,):
+            figuras = figuras[1:]  # Remove o primeiro elemento das figuras, que é a imagem de fundo(n sei pq é assim, mas é)
+            for figura in figuras:
+                self.quadro_desenho.delete_figure(figura)
 
         else:
-
-            # self.quadro_desenho.Widget.create_line((self.lastx, self.lasty, event.x, event.y), fill=self.cor_pincel,width=self.tamanho_pincel)
             self.quadro_desenho.draw_rectangle((self.lastx, 300 - self.lasty), (event.x, 300 - event.y),
                                                line_color=self.cor_pincel, line_width=self.tamanho_pincel)
 
@@ -144,11 +136,11 @@ class TelaEdicao:
         elif self.cor_pincel == 'white':
             self.cor_pincel = "black"
             self.telaprincipal['corbtn'].update(button_color=('white', self.cor_pincel))
-            self.telaprincipal['freqslider'].update(range=(0, 0.9))
+            self.telaprincipal['freqslider'].update(range=(0, 0.9), value=self.multiplicadorFreq[0])
         else:
             self.cor_pincel = 'white'
             self.telaprincipal['corbtn'].update(button_color=('black', self.cor_pincel))
-            self.telaprincipal['freqslider'].update(range=(1, 5))
+            self.telaprincipal['freqslider'].update(range=(1, 5), value=self.multiplicadorFreq[1])
 
     def run(self) -> None:
         self.set_quadro_desenho_binds()
