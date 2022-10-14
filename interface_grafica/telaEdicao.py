@@ -19,6 +19,7 @@ class TelaEdicao:
         self.set_quadro_de_desenho()
 
     def set_tela_principal(self):
+        btnsair = [sg.Exit("Sair", button_color=("#000000", "#991a1a"), key='sairbtn')]
         tam = [[sg.Button("+", button_color=("#000000", "#991a1a"), key="aumentabtn", size=(1, 1))],
                [sg.Text(f'{self.tamanho_pincel} px' ,key="tamtxt", pad=(5, 5))],
                [sg.Button("-", button_color=("#000000", "#991a1a"), key="diminuibtn", size=(1, 1))]]
@@ -38,7 +39,7 @@ class TelaEdicao:
                 [sg.Button("Cor", expand_x=True, button_color=("#FFFFFF", "#000000"), key="corbtn")],
                 [sg.Button("Borracha", expand_x=True, button_color=("#000000", "#991a1a"), key="borrachabtn")],
                 [sg.Button("Limpar", expand_x=True, button_color=("#000000", "#991a1a"), key="limpabtn")]])]])],
-            [sg.Frame("Arquivo", [[sg.Exit("Sair", button_color=("#000000", "#991a1a"), key='sairbtn'),
+            [sg.Frame("Arquivo", [[sg.Button("Sair", expand_x=True ,button_color=("#000000", "#991a1a"), key='sairbtn'),
                                    sg.Button('Salvar', expand_x=True, button_color=("#000000", "#ffb077"),
                                              key="salvarbtn")]], pad=(5, 3),
                       expand_x=True, expand_y=True,
