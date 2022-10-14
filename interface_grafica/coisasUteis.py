@@ -63,14 +63,14 @@ def cria_filtro_do_desenho(multiplicador_freq):
     imgeditada = cv2.imread(DIRETORIO_TRANS_EDITADA)
     imgOriginal = cv2.imread(DIRETORIO_TRANS_ORIGINAL)
     base = np.ones([300,300])
+    #print(f"b:{multiplicador_freq[0]} w:{multiplicador_freq[1]}")
     for x in range(300):
         for y in range (300):
             if not (np.array_equal(imgeditada[x,y], imgOriginal[x,y])):
-                if np.array_equal(imgeditada[x,y] , np.array([0,0,0])): #Qd na tela for preto, ela criará uma mascara com 0, vulgo borrachinha da frequencia
-                    base[x,y] = 0
-                elif np.array_equal(imgeditada[x,y] , np.array([255,255,255])): #Qd na tela for branco, ela  criará a mascara com o multiplicador da frequência passado (SE MUDAR DE COR PARA REPRESENTAR O AUMENTO DE FREQUENCIA, PRECISA MUDAR ESSE 255 AI)
-                    # ver como vai fazer quando na multiplicação da mascara com a transformada for maior que 255, possivel tratamento ._.
-                    base[x,y] = multiplicador_freq
+                if np.array_equal(imgeditada[x,y] , np.array([0,0,0])): #Qd na tela for preto, ela criará uma mascara com um valor entre 0-0.9, vulgo borrachinha da frequencia
+                    base[x,y] = multiplicador_freq[0]
+                elif np.array_equal(imgeditada[x,y] , np.array([255,255,255])): #Qd na tela for branco, ela  criará a mascara com o multiplicador da frequência passado
+                    base[x,y] = multiplicador_freq[1]
 
     return base
 
