@@ -3,7 +3,7 @@ from PIL import Image
 from PIL.Image import Resampling
 import io
 import os
-from telaEdicao import TelaEdicao
+import telaEdicao
 from transformada import transformada
 from transformada import transformada_para_imagem
 from coisasUteis import LARGURA_JANELA, ALTURA_JANELA
@@ -58,28 +58,28 @@ def open_first_window():
             window.close()
             transf = transformada(image_mulie)
             transformada_para_imagem(transf)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = telaEdicao.TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "zebrapressed":
             window.close()
             transf = transformada(image_zebra)
             transformada_para_imagem(transf)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = telaEdicao.TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "mariopressed":
             window.close()
             transf = transformada(image_mario)
             transformada_para_imagem(transf)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = telaEdicao.TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "pengupressed":
             window.close()
             transf = transformada(image_pengu)
             transformada_para_imagem(transf)
-            telaPaint = TelaEdicao(transf)
+            telaPaint = telaEdicao.TelaEdicao(transf)
             telaPaint.run()
             break
         elif event == "Load Image":
@@ -92,38 +92,9 @@ def open_first_window():
                 image.save(foto)
                 transf = transformada(foto) #Faz transformada e devolve a transformada centralizada
                 transformada_para_imagem(transf) #Salva a tranformada como imagem
-                telapaint = TelaEdicao(transf)
+                telapaint = telaEdicao.TelaEdicao(transf)
                 telapaint.run()
             break
-    window.close()
-
-
-def open_second_window(image):
-    layout_column2 = [
-        [sg.Text("Fast Fourier Transform Editor", size=(80, 1), justification="center")],
-        [sg.Button(image_filename=image, image_size=(300, 300), key="userimg")],
-        [sg.Button("Voltar", key="anterior")]
-    ]
-
-    layout = [[sg.Column(layout_column2, element_justification='center')]]
-
-    window = sg.Window("FFT", layout, size=(LARGURA_JANELA, ALTURA_JANELA))
-
-    # Interagindo o a segunda janela
-    while True:
-        event, values = window.read()
-        if event == "Exit" or event == sg.WIN_CLOSED:
-            break
-        elif event == "userimg":
-            window.close()
-            transf = transformada(image)
-            telaPaint = TelaEdicao(transformada_para_imagem(transf))
-            telaPaint.run()
-            break
-        elif event == "anterior":
-            window.close()
-            open_first_window()
-
     window.close()
 
 
@@ -153,3 +124,5 @@ while True:
         open_first_window()
 
 window.close()
+
+
