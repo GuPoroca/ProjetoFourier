@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from PIL import Image, ImageGrab
-import PIL.Image
 from io import BytesIO
 from tkinter import *
 
@@ -22,14 +21,11 @@ def array_to_data(array):
 
 def save_graph_as_file(element, filename):
     widget = element.Widget
-    x = widget.winfo_rootx() + widget.winfo_x()*2 +250 #Esse 4 foi calculado com precisão suiça, pode confiar
-    y = widget.winfo_rooty() + widget.winfo_y() +60
-    x1 = x+450
-    y1 = y+450
+    x = widget.winfo_rootx() + widget.winfo_x()+4 #Esse 4 foi calculado com precisão suiça, pode confiar
+    y = widget.winfo_rooty() + widget.winfo_y() +4
+    x1 = x + widget.winfo_width()
+    y1 = y + widget.winfo_height()
     ImageGrab.grab().crop((x, y, x1, y1)).save(filename)
-    img = PIL.Image.open(filename)
-    img = img.resize((300, 300), PIL.Image.Resampling.LANCZOS)
-    img.save(filename)
     #box = (widget.winfo_rootx(), widget.winfo_rooty(), widget.winfo_rootx() + widget.winfo_width(), widget.winfo_rooty() + widget.winfo_height())
     #grab = ImageGrab.grab(bbox=box)
     #grab.save(filename)
