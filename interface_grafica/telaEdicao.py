@@ -5,7 +5,6 @@ from coisasUteis import save_graph_as_file, LARGURA_JANELA, ALTURA_JANELA, cria_
     DIRETORIO_TRANS_ORIGINAL, DIRETORIO_TRANS_EDITADA
 from transformada import inversa_para_imagem, transformada_inversa
 
-
 # TODO
 #   Melhorar UI, ainda preciso
 
@@ -143,6 +142,27 @@ class TelaEdicao:
             self.telaprincipal['corbtn'].update(button_color=('black', self.cor_pincel))
             self.telaprincipal['freqslider'].update(range=(1, 5), value=self.multiplicadorFreq[1])
 
+    def open_result(self, image):
+        layout_column2 = [
+            [sg.Text("Resultado da Sua Edição", size=(80, 1), justification="center")],
+            [sg.Button(image_filename=image, image_size=(300, 300), key="userimg")],
+            [sg.Button("Voltar a editar", key="anterior")]
+        ]
+
+        layout = [[sg.Column(layout_column2, element_justification='center')]]
+
+        window = sg.Window("IFFT", layout, size=(LARGURA_JANELA, ALTURA_JANELA))
+
+        # Interagindo o a segunda janela
+        while True:
+            event, values = window.read()
+            if event == "Exit" or event == sg.WIN_CLOSED:
+                break
+            elif event == "anterior":
+                window.close()
+
+        window.close()
+
     def run(self) -> None:
         self.set_quadro_desenho_binds()
         while True:  # A brincadeira eh aq
@@ -158,6 +178,8 @@ class TelaEdicao:
                     self.salvar()
                     filtro = cria_filtro_do_desenho(self.multiplicadorFreq)
                     resultado(filtro, self.transformada)
+                    imgresult = "../data/trans&result/resultado.png"
+                    self.open_result(imgresult)
                 case "limpabtn":
                     self.limpar()
                 case "aumentabtn":
